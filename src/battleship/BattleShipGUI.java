@@ -46,6 +46,7 @@ public class BattleShipGUI extends javax.swing.JFrame {
         layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0};
         getContentPane().setLayout(layout);
 
+        toolBar.setFloatable(false);
         toolBar.setRollover(true);
 
         jButton1.setText("jButton1");
@@ -116,6 +117,7 @@ public class BattleShipGUI extends javax.swing.JFrame {
 		
 		/* Create and display the form */
 		java.awt.EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				new BattleShipGUI().setVisible(true);
 			}

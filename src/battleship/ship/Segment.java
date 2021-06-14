@@ -49,29 +49,17 @@ public class Segment extends javax.swing.JPanel {
 	public void updateColor() {
 		java.awt.Color color;
 		switch(this.state) {
-			case UNKNOWN: {
-				color = new java.awt.Color(195, 195, 195);
-				break;
-			}
-			case ALIVE: {
-				color = new java.awt.Color(0, 162, 232);
-				break;
-			}
-			case DEAD: {
-				color = new java.awt.Color(237, 28, 36);
-				break;
-			}
-			case MISS: {
+			case UNKNOWN ->	color = new java.awt.Color(195, 195, 195);
+			case ALIVE ->	color = new java.awt.Color(0, 162, 232);
+			case DEAD ->	color = new java.awt.Color(237, 28, 36);
+			case MISS ->  {
 				color = new java.awt.Color(127, 127, 127);
-				break;
 			}
-			case HIT: {
+			case HIT ->  {
 				color = new java.awt.Color(255, 127, 39);
-				break;
 			}
-			default: {
+			default ->  {
 				color = new java.awt.Color(240, 240, 240);
-				break;
 			}
 		}
 		this.setBackground(color);
@@ -107,30 +95,12 @@ public class Segment extends javax.swing.JPanel {
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
         // TODO add your handling code here:
 		switch(this.state) {
-			case UNKNOWN: {
-				this.setState(State.ALIVE);
-				break;
-			}
-			case ALIVE: {
-				this.setState(State.DEAD);
-				break;
-			}
-			case DEAD: {
-				this.setState(State.MISS);
-				break;
-			}
-			case MISS: {
-				this.setState(State.HIT);
-				break;
-			}
-			case HIT: {
-				this.setState(State.UNKNOWN);
-				break;
-			}
-			default: {
-				this.setState(State.UNKNOWN);
-				break;
-			}
+			case UNKNOWN ->	this.setState(State.ALIVE);
+			case ALIVE ->	this.setState(State.DEAD);
+			case DEAD ->	this.setState(State.MISS);
+			case MISS ->	this.setState(State.HIT);
+			case HIT ->		this.setState(State.UNKNOWN);
+			default ->		this.setState(State.UNKNOWN);
 		}
     }//GEN-LAST:event_formMousePressed
 
