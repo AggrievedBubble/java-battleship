@@ -20,6 +20,9 @@ public class Segment extends javax.swing.JPanel {
 	
 	/**
 	 * Creates new form Segment
+	 * @param xpos
+	 * @param ypos
+	 * @param defaultState
 	 */
 		
 	
@@ -46,21 +49,15 @@ public class Segment extends javax.swing.JPanel {
 		return this.pos;
 	}
 	
-	public void updateColor() {
+	public final void updateColor() {
 		java.awt.Color color;
 		switch(this.state) {
 			case UNKNOWN ->	color = new java.awt.Color(195, 195, 195);
-			case ALIVE ->	color = new java.awt.Color(0, 162, 232);
-			case DEAD ->	color = new java.awt.Color(237, 28, 36);
-			case MISS ->  {
-				color = new java.awt.Color(127, 127, 127);
-			}
-			case HIT ->  {
-				color = new java.awt.Color(255, 127, 39);
-			}
-			default ->  {
-				color = new java.awt.Color(240, 240, 240);
-			}
+			case ALIVE ->	color = new java.awt.Color(  0, 162, 232);
+			case DEAD ->	color = new java.awt.Color(237,  28,  36);
+			case MISS ->	color = new java.awt.Color(127, 127, 127);
+			case HIT ->		color = new java.awt.Color(255, 127,  39);
+			default ->		color = new java.awt.Color(240, 240, 240);
 		}
 		this.setBackground(color);
 	}
