@@ -1,5 +1,6 @@
 package battleship.ship;
 
+import battleship.Team;
 import battleship.ship.segment.Position;
 import battleship.ship.segment.State;
 
@@ -16,6 +17,7 @@ import battleship.ship.segment.State;
 public class Segment extends javax.swing.JPanel {
 
 	private State state;
+	private Team team;
 	private final Position pos;
 	
 	/**
@@ -24,12 +26,11 @@ public class Segment extends javax.swing.JPanel {
 	 * @param ypos
 	 * @param defaultState
 	 */
-		
-	
-	public Segment(int xpos, int ypos, State defaultState) {
+	public Segment(int xpos, int ypos, State defaultState, Team team) {
 		
 		initComponents();
 		
+		this.team = team;
 		this.state = defaultState;
 		this.updateColor();
 		this.pos = new Position(xpos, ypos);
@@ -92,12 +93,18 @@ public class Segment extends javax.swing.JPanel {
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
         // TODO add your handling code here:
 		switch(this.state) {
-			case UNKNOWN ->	this.setState(State.ALIVE);
+			case UNKNOWN ->	{
+				if (this.team.getTeamShipGrid()[this.getPos().getX()][this.getPos().getY()]) {
+					this.setState(State.HIT);
+				} else if (!this.team.getTeamShipGrid()[this.getPos().getX()][this.getPos().getY()]) {
+					this.setState(State.MISS);
+				}
+			}
 			case ALIVE ->	this.setState(State.DEAD);
-			case DEAD ->	this.setState(State.MISS);
-			case MISS ->	this.setState(State.HIT);
-			case HIT ->		this.setState(State.UNKNOWN);
-			default ->		this.setState(State.UNKNOWN);
+//			case DEAD ->	this.setState(State.MISS);
+//			case MISS ->	this.setState(State.HIT);
+			case HIT ->		this.setState(State.DEAD);
+//			default ->		this.setState(State.UNKNOWN);
 		}
     }//GEN-LAST:event_formMousePressed
 

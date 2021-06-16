@@ -14,14 +14,20 @@ import battleship.ship.segment.State;
  */
 public class Grid extends javax.swing.JPanel {
 
+	private final Team team;
+	
 	/**
 	 * Creates new form Grid
+	 * @param team
 	 */
-	public Grid() {
+	public Grid(Team team) {
 		initComponents();
+		
+		this.team = team;
+
 		for (int x = 0; x < 8; x++) {
 			for (int y = 0; y < 8; y++) {
-				this.add(new Segment(x, y, State.UNKNOWN));
+				this.add(new Segment(x, y, State.UNKNOWN, this.team));
 			}
 		}
 		
@@ -29,6 +35,14 @@ public class Grid extends javax.swing.JPanel {
 		this.repaint();
 	}
 
+	public void refresh() {
+		for (int x = 0; x < 8; x++) {
+			for (int y = 0; y < 8; y++) {
+				
+			}
+		}
+	}
+	
 	/**
 	 * This method is called from within the constructor to initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is always

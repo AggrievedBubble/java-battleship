@@ -16,10 +16,14 @@ public class BattleShipGUI extends javax.swing.JFrame {
 	 */
 	public BattleShipGUI() {
 		initComponents();
-		friendlyPanel.add(new Grid());
+		Grid grid = new Grid(Team.FRIENDLY);
+		Team.FRIENDLY.setGrid(grid);
+		friendlyPanel.add(grid);
 		friendlyPanel.revalidate();
 		friendlyPanel.repaint();
-		enemyPanel.add(new Grid());
+		grid = new Grid(Team.ENEMY);
+		Team.ENEMY.setGrid(grid);
+		enemyPanel.add(grid);
 		enemyPanel.revalidate();
 		enemyPanel.repaint();
 	}
@@ -53,6 +57,11 @@ public class BattleShipGUI extends javax.swing.JFrame {
         jButton1.setFocusable(false);
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         toolBar.add(jButton1);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -86,6 +95,20 @@ public class BattleShipGUI extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+		boolean[][] grid = generateGrid();
+		grid[1][1] = true;
+		grid[1][2] = true;
+		grid[1][3] = true;
+		grid[1][4] = true;
+		
+		grid[3][2] = true;
+		grid[3][3] = true;
+		Team.ENEMY.setTeamShipGrid(grid);
+		Team.FRIENDLY.setTeamShipGrid(grid);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 	/**
 	 * @param args the command line arguments
@@ -124,12 +147,12 @@ public class BattleShipGUI extends javax.swing.JFrame {
 		});
 	}
 
-	static String[][] createGrid() {
-		String[][] grid = new String[7][7];
+	static boolean[][] generateGrid() {
+		boolean[][] grid = new boolean[8][8];
 
 		for (int x = 0; x < grid.length; x++) {
 			for (int y = 0; y< grid.length; y++) {
-				grid[x][y] = " ";
+				grid[x][y] = false;
 			}
 		}
 		
@@ -137,7 +160,7 @@ public class BattleShipGUI extends javax.swing.JFrame {
 		
 	}
 	
-	static void logGrid(String[][] grid) {
+	static void logGrid(boolean[][] grid) {
 		System.out.println("----------------");
 		for (int x = 0; x < grid.length; x++) {
 			System.out.print("|");
