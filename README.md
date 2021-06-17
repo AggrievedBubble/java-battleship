@@ -21,27 +21,27 @@ Players can **not** see each others grids and take turns firing shots at each ot
 
 If a player hits a shot they get another go.
 
-
+![gameplay flowchart](./Images/gameplay_flowchart.png "Gameplay flowchart")
 
 ---
 
 The board state is to be saved in a 2d array that can be created with this function:
 ```java
-static String[][] createGrid() {
-	String[][] grid = new String[7][7];
+static boolean[][] createGrid() {
+	boolean0[][] grid = new boolean[8][8];
 	for (int x = 0; x < grid.length; x++) {
 		for (int y = 0; y< grid.length; y++) {
-			grid[x][y] = " ";
+			grid[x][y] = false;
 		}
 	}		
 	return grid;
 }
 ```
-The above function would create and return the structure to be filled with ship segments that can be alive or destroyed.
+The above function would create and return the structure to be filled with ship segments that can be present or not.
 
 Another useful function is this one:
 ```java
-static void logGrid(String[][] grid) {
+static void logGrid(boolean[][] grid) {
 	System.out.println("----------------");
 	for (int x = 0; x < grid.length; x++) {
 		System.out.print("|");
