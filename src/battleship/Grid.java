@@ -7,6 +7,7 @@ package battleship;
 
 import battleship.ship.Segment;
 import battleship.ship.segment.State;
+import java.awt.Component;
 
 /**
  *
@@ -24,10 +25,12 @@ public class Grid extends javax.swing.JPanel {
 		initComponents();
 		
 		this.team = team;
+		
 
 		for (int x = 0; x < 8; x++) {
 			for (int y = 0; y < 8; y++) {
-				this.add(new Segment(x, y, State.UNKNOWN, this.team));
+				Segment seg = new Segment(x, y, State.UNKNOWN, this.team);
+				this.add(seg);
 			}
 		}
 		
@@ -36,13 +39,15 @@ public class Grid extends javax.swing.JPanel {
 	}
 
 	public void refresh() {
-		for (int x = 0; x < 8; x++) {
-			for (int y = 0; y < 8; y++) {
-				
+		Component[] complist = this.getComponents();
+		for (Component comp: complist) {
+			Segment seg = (Segment) comp;
+			if (this.team.getTeamShipGrid()[seg.getPos().getX()][seg.getPos().getY()] && seg.getState() == State.UNKNOWN) {
+				seg.setState(State.ALIVE);
 			}
 		}
 	}
-	
+
 	/**
 	 * This method is called from within the constructor to initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is always

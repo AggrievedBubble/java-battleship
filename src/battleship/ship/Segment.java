@@ -17,7 +17,7 @@ import battleship.ship.segment.State;
 public class Segment extends javax.swing.JPanel {
 
 	private State state;
-	private Team team;
+	private final Team team;
 	private final Position pos;
 	
 	/**
@@ -25,6 +25,7 @@ public class Segment extends javax.swing.JPanel {
 	 * @param xpos
 	 * @param ypos
 	 * @param defaultState
+	 * @param team
 	 */
 	public Segment(int xpos, int ypos, State defaultState, Team team) {
 		

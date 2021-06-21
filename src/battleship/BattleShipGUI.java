@@ -39,7 +39,7 @@ public class BattleShipGUI extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         toolBar = new javax.swing.JToolBar();
-        jButton1 = new javax.swing.JButton();
+        startButton = new javax.swing.JButton();
         friendlyPanel = new javax.swing.JPanel();
         enemyPanel = new javax.swing.JPanel();
 
@@ -53,16 +53,16 @@ public class BattleShipGUI extends javax.swing.JFrame {
         toolBar.setFloatable(false);
         toolBar.setRollover(true);
 
-        jButton1.setText("jButton1");
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        startButton.setText("Start");
+        startButton.setFocusable(false);
+        startButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        startButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        startButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                startButtonActionPerformed(evt);
             }
         });
-        toolBar.add(jButton1);
+        toolBar.add(startButton);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -96,7 +96,7 @@ public class BattleShipGUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
         // TODO add your handling code here:
 		boolean[][] grid = generateGrid();
 		grid[1][1] = true;
@@ -108,7 +108,7 @@ public class BattleShipGUI extends javax.swing.JFrame {
 		grid[3][3] = true;
 		Team.ENEMY.setTeamShipGrid(grid);
 		Team.FRIENDLY.setTeamShipGrid(grid);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_startButtonActionPerformed
 
 	/**
 	 * @param args the command line arguments
@@ -174,7 +174,7 @@ public class BattleShipGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel enemyPanel;
     private javax.swing.JPanel friendlyPanel;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton startButton;
     private javax.swing.JToolBar toolBar;
     // End of variables declaration//GEN-END:variables
 }

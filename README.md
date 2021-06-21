@@ -46,7 +46,7 @@ static void logGrid(boolean[][] grid) {
 	for (int x = 0; x < grid.length; x++) {
 		System.out.print("|");
 		for (int y = 0; y< grid.length; y++) {
-			System.out.print(grid[x][y].state + "|");
+			System.out.print(grid[x][y] + "|");
 		}
 		System.out.print("\n----------------\n");
 	}
