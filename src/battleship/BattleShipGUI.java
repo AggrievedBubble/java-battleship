@@ -16,16 +16,43 @@ public class BattleShipGUI extends javax.swing.JFrame {
 	 */
 	public BattleShipGUI() {
 		initComponents();
-		Grid grid = new Grid(Team.FRIENDLY);
-		Team.FRIENDLY.setGrid(grid);
-		friendlyPanel.add(grid);
+		Grid displayGrid = new Grid(Team.FRIENDLY);
+		Team.FRIENDLY.setDisplayGrid(displayGrid);
+		friendlyPanel.add(displayGrid);
 		friendlyPanel.revalidate();
 		friendlyPanel.repaint();
-		grid = new Grid(Team.ENEMY);
-		Team.ENEMY.setGrid(grid);
-		enemyPanel.add(grid);
+		displayGrid = new Grid(Team.ENEMY);
+		Team.ENEMY.setDisplayGrid(displayGrid);
+		enemyPanel.add(displayGrid);
 		enemyPanel.revalidate();
 		enemyPanel.repaint();
+		
+		boolean[][] grid = generateGrid();
+		grid[1][1] = true;
+		grid[1][2] = true;
+		grid[1][3] = true;
+		grid[1][4] = true;
+		grid[1][5] = true;
+		
+		grid[4][5] = true;
+		grid[5][5] = true;
+		grid[6][5] = true;
+		grid[7][5] = true;
+		
+		grid[6][0] = true;
+		grid[6][1] = true;
+		grid[6][2] = true;
+		
+		grid[0][7] = true;
+		grid[1][7] = true;
+		grid[2][7] = true;
+		
+		grid[3][2] = true;
+		grid[3][3] = true;
+		boolean[][] egrid = generateGrid();
+		Team.ENEMY.setTeamShipGrid(placeShipsRandom(egrid));
+		Team.FRIENDLY.setTeamShipGrid(grid);
+		
 	}
 
 	/**
@@ -38,39 +65,16 @@ public class BattleShipGUI extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        toolBar = new javax.swing.JToolBar();
-        startButton = new javax.swing.JButton();
         friendlyPanel = new javax.swing.JPanel();
         enemyPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("BattleShip");
         setPreferredSize(new java.awt.Dimension(720, 480));
         java.awt.GridBagLayout layout = new java.awt.GridBagLayout();
         layout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0};
         layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0};
         getContentPane().setLayout(layout);
-
-        toolBar.setFloatable(false);
-        toolBar.setRollover(true);
-
-        startButton.setText("Start");
-        startButton.setFocusable(false);
-        startButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        startButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        startButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                startButtonActionPerformed(evt);
-            }
-        });
-        toolBar.add(startButton);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 7;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        getContentPane().add(toolBar, gridBagConstraints);
 
         friendlyPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Friendly Waters"));
         friendlyPanel.setLayout(new java.awt.BorderLayout());
@@ -95,20 +99,6 @@ public class BattleShipGUI extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
-        // TODO add your handling code here:
-		boolean[][] grid = generateGrid();
-		grid[1][1] = true;
-		grid[1][2] = true;
-		grid[1][3] = true;
-		grid[1][4] = true;
-		
-		grid[3][2] = true;
-		grid[3][3] = true;
-		Team.ENEMY.setTeamShipGrid(grid);
-		Team.FRIENDLY.setTeamShipGrid(grid);
-    }//GEN-LAST:event_startButtonActionPerformed
 
 	/**
 	 * @param args the command line arguments
@@ -160,6 +150,138 @@ public class BattleShipGUI extends javax.swing.JFrame {
 		
 	}
 	
+	static boolean[][] placeShipsRandom(boolean[][] grid) {
+		boolean invalid_grid = false;
+		do {//repeats until a valid grid is generated where all ships are placed, none overlap, touch or extend past the side
+			if (invalid_grid) grid = generateGrid();
+			invalid_grid = false;
+			//placing 5 long ship
+			//decides whether to place vertical or horizontal
+			if ((int)Math.round(Math.random()) == 0) {
+				//code for vertical placement
+				int startx = (int)Math.floor(Math.random()*8);
+				int starty = (int)Math.floor(Math.random()*3);
+				grid[starty][startx] = true;
+				grid[starty+1][startx] = true;
+				grid[starty+2][startx] = true;
+				grid[starty+3][startx] = true;
+				grid[starty+4][startx] = true;
+					
+			} else {
+				//code for horizontal placement
+				int startx = (int)Math.floor(Math.random()*3);
+				int starty = (int)Math.floor(Math.random()*8);
+				grid[starty][startx] = true;
+				grid[starty][startx+1] = true;
+				grid[starty][startx+2] = true;
+				grid[starty][startx+3] = true;
+				grid[starty][startx+4] = true;
+			}
+			//placing 4 long ship
+			//decides whether to place vertical or horizontal
+			if ((int)Math.round(Math.random()) == 0) {
+				//code for vertical
+				int startx = (int)Math.floor(Math.random()*8);
+				int starty = (int)Math.floor(Math.random()*4);
+				if (grid[starty][startx]) invalid_grid = true;
+				if (grid[starty+1][startx]) invalid_grid = true;
+				if (grid[starty+2][startx]) invalid_grid = true;
+				if (grid[starty+3][startx]) invalid_grid = true;
+				grid[starty][startx] = true;
+				grid[starty+1][startx] = true;
+				grid[starty+2][startx] = true;
+				grid[starty+3][startx] = true;
+				
+			} else {
+				//code for horizontal
+				int startx = (int)Math.floor(Math.random()*4);
+				int starty = (int)Math.floor(Math.random()*8);
+				if (grid[starty][startx]) invalid_grid = true;
+				if (grid[starty][startx+1]) invalid_grid = true;
+				if (grid[starty][startx+2]) invalid_grid = true;
+				if (grid[starty][startx+3]) invalid_grid = true;
+				grid[starty][startx] = true;
+				grid[starty][startx+1] = true;
+				grid[starty][startx+2] = true;
+				grid[starty][startx+3] = true;
+			}
+			//placing 3 long ship a
+			//decides vertical or horizontal
+			if ((int)Math.round(Math.random()) == 0) {
+				//code for vertical
+				int startx = (int)Math.floor(Math.random()*8);
+				int starty = (int)Math.floor(Math.random()*5);
+				if (grid[starty][startx]) invalid_grid = true;
+				if (grid[starty+1][startx]) invalid_grid = true;
+				if (grid[starty+2][startx]) invalid_grid = true;
+				grid[starty][startx] = true;
+				grid[starty+1][startx] = true;
+				grid[starty+2][startx] = true;
+
+			} else {
+				//code for horizontal
+				int startx = (int)Math.floor(Math.random()*5);
+				int starty = (int)Math.floor(Math.random()*8);
+				if (grid[starty][startx]) invalid_grid = true;
+				if (grid[starty][startx+1]) invalid_grid = true;
+				if (grid[starty][startx+2]) invalid_grid = true;
+				grid[starty][startx] = true;
+				grid[starty][startx+1] = true;
+				grid[starty][startx+2] = true;
+
+			}
+			//placing 3 long ship b
+			//decides vertical or horizontal
+			if ((int)Math.round(Math.random()) == 0) {
+				//code for vertical
+				int startx = (int)Math.floor(Math.random()*8);
+				int starty = (int)Math.floor(Math.random()*5);
+				if (grid[starty][startx]) invalid_grid = true;
+				if (grid[starty+1][startx]) invalid_grid = true;
+				if (grid[starty+2][startx]) invalid_grid = true;
+				grid[starty][startx] = true;
+				grid[starty+1][startx] = true;
+				grid[starty+2][startx] = true;
+
+			} else {
+				//code for horizontal
+				int startx = (int)Math.floor(Math.random()*5);
+				int starty = (int)Math.floor(Math.random()*8);
+				if (grid[starty][startx]) invalid_grid = true;
+				if (grid[starty][startx+1]) invalid_grid = true;
+				if (grid[starty][startx+2]) invalid_grid = true;
+				grid[starty][startx] = true;
+				grid[starty][startx+1] = true;
+				grid[starty][startx+2] = true;
+
+			}
+			//placing 2 long ship
+			//decides vertical or horizontal
+			if ((int)Math.round(Math.random()) == 0) {
+				//code for vertical
+				int startx = (int)Math.floor(Math.random()*8);
+				int starty = (int)Math.floor(Math.random()*6);
+				if (grid[starty][startx]) invalid_grid = true;
+				if (grid[starty+1][startx]) invalid_grid = true;
+				grid[starty][startx] = true;
+				grid[starty+1][startx] = true;
+
+			} else {
+				//code for horizontal
+				int startx = (int)Math.floor(Math.random()*6);
+				int starty = (int)Math.floor(Math.random()*8);
+				if (grid[starty][startx]) invalid_grid = true;
+				if (grid[starty][startx+1]) invalid_grid = true;
+				grid[starty][startx] = true;
+				grid[starty][startx+1] = true;
+
+			}
+			
+		} while (invalid_grid);
+		
+		return grid;
+	}
+	
 	static void logGrid(boolean[][] grid) {
 		System.out.println("----------------");
 		for (int x = 0; x < grid.length; x++) {
@@ -174,7 +296,5 @@ public class BattleShipGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel enemyPanel;
     private javax.swing.JPanel friendlyPanel;
-    private javax.swing.JButton startButton;
-    private javax.swing.JToolBar toolBar;
     // End of variables declaration//GEN-END:variables
 }

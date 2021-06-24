@@ -99,13 +99,11 @@ public class Segment extends javax.swing.JPanel {
 					this.setState(State.HIT);
 				} else if (!this.team.getTeamShipGrid()[this.getPos().getX()][this.getPos().getY()]) {
 					this.setState(State.MISS);
+					Team.FRIENDLY.CPUHit();
 				}
+				
 			}
 			case ALIVE ->	this.setState(State.DEAD);
-//			case DEAD ->	this.setState(State.MISS);
-//			case MISS ->	this.setState(State.HIT);
-			case HIT ->		this.setState(State.DEAD);
-//			default ->		this.setState(State.UNKNOWN);
 		}
     }//GEN-LAST:event_formMousePressed
 

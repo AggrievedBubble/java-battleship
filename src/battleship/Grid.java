@@ -39,11 +39,13 @@ public class Grid extends javax.swing.JPanel {
 	}
 
 	public void refresh() {
-		Component[] complist = this.getComponents();
-		for (Component comp: complist) {
-			Segment seg = (Segment) comp;
-			if (this.team.getTeamShipGrid()[seg.getPos().getX()][seg.getPos().getY()] && seg.getState() == State.UNKNOWN) {
-				seg.setState(State.ALIVE);
+		if (this.team.equals(Team.FRIENDLY)) {
+			Component[] complist = this.getComponents();
+			for (Component comp: complist) {
+				Segment seg = (Segment) comp;
+				if (this.team.getTeamShipGrid()[seg.getPos().getX()][seg.getPos().getY()] && seg.getState() == State.UNKNOWN) {
+					seg.setState(State.ALIVE);
+				}
 			}
 		}
 	}

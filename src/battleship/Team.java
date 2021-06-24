@@ -6,27 +6,44 @@
 package battleship;
 
 import static battleship.BattleShipGUI.generateGrid;
+import battleship.ship.Segment;
+import battleship.ship.segment.State;
+import java.awt.Component;
 
 /**
  *
  * @author j9neave
  */
 public enum Team {
-	FRIENDLY {
-		
+	FRIENDLY{
 		@Override
-		public void setTeamShipGrid(boolean[][] shipGrid) {
-			this.shipGrid = shipGrid;
-			this.getGrid().refresh();
+		public void CPUHit() {
+			int x = (int)Math.floor(Math.random()*8);
+			int y = (int)Math.floor(Math.random()*8);
+			for (Component comp: this.getDisplayGrid().getComponents()) {
+				Segment seg = (Segment) comp;
+				if (seg.getPos().getX() == x && seg.getPos().getY() == y) {
+					if (seg.getState().equals(State.UNKNOWN)) {
+						seg.setState(State.MISS);
+					} else if (seg.getState().equals(State.ALIVE)) {
+						seg.setState(State.DEAD);
+					} else {
+						this.CPUHit();
+					}
+					
+				}
+			}
+			
 		}
 	},
 	ENEMY;
 	
 	boolean[][] shipGrid;
-	Grid grid;
+	Grid DisplayGrid;
 	
 	public void setTeamShipGrid(boolean[][] shipGrid) {
 		this.shipGrid = shipGrid;
+		this.getDisplayGrid().refresh();
 	}
 	
 	public boolean[][] getTeamShipGrid() {
@@ -37,12 +54,16 @@ public enum Team {
 		}
 	}
 	
-	public void setGrid(Grid grid) {
-		this.grid = grid;
+	public void setDisplayGrid(Grid grid) {
+		this.DisplayGrid = grid;
 	}
 	
-	public Grid getGrid() {
-		return this.grid;
+	public Grid getDisplayGrid() {
+		return this.DisplayGrid;
+	}
+
+	public void CPUHit() {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 	
 }
