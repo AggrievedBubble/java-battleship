@@ -14,8 +14,6 @@ This is a _simple_ **BattleShip** game created in ~~JavaScript~~ **Java** for a 
 
 > (also note: by simple i mean that it's probably a really bad way of programming this but i didn't know any better)
 
----
-
 ## How to play **BattleShip**
 
 **Battleship** is a game played by two players in which each player has a grid on which they can place 5 **ships** of varying lengths:
@@ -33,8 +31,6 @@ Players can **not** see each others grids and take turns firing shots at each ot
 If a player hits a shot they get another go.
 
 ![gameplay flowchart](./Images/gameplay_flowchart.png "Gameplay flowchart")
-
----
 
 ## Design 1:
 
@@ -88,11 +84,9 @@ I plan to store the board as a 2d array that contains panels which the user can 
 
 ![Application internal flowchart](./Images/application_flowchart.png "Internal flowchart")
 
----
-
 ## Some key functions
 
-The board state is to be saved in a 2d array that can be created with this function:
+The board state is to be saved in a 2d array that can be created with [this](https://github.com/AggrievedBubble/java-battleship/blob/e2cd4baedeaf40cc6d89bc9133deaa757b416bfb/src/battleship/BattleShipGUI.java#L140-L151) function:
 
 ```java
 static boolean[][] createGrid() {
@@ -106,72 +100,74 @@ static boolean[][] createGrid() {
 }
 ```
 
-The above function would create and return the structure to be filled with ship segments that can be present or not.
+It creates and returns the structure to be filled with ship segments that can be present or not.
 
-Another useful function is this one which randomly places ships ensuring they don't overlap and are within the confines of the 8x8 grid:
+Another useful function is [this](https://github.com/AggrievedBubble/java-battleship/blob/4c7634908deb38c388f5f10a8d4777b97b8d6ef1/src/battleship/BattleShipGUI.java#L153-L283) one which randomly places ships ensuring they don't overlap and are within the confines of the 8x8 grid:
 
 ```java
-	static boolean[][] placeShipsRandom(boolean[][] grid) {
-		boolean invalid_grid = false;
-		do {//repeats until a valid grid is generated where all ships are placed, none overlap or extend past the side
-			if (invalid_grid) grid = generateGrid();
-			invalid_grid = false;
-			//placing 5 long ship
-			//decides whether to place vertical or horizontal
-			if ((int)Math.round(Math.random()) == 0) {
-				//code for vertical placement
-				int startx = (int)Math.floor(Math.random()*8);
-				int starty = (int)Math.floor(Math.random()*3);
-				grid[starty][startx] = true;
-				grid[starty+1][startx] = true;
-				grid[starty+2][startx] = true;
-				grid[starty+3][startx] = true;
-				grid[starty+4][startx] = true;
+static boolean[][] placeShipsRandom(boolean[][] grid) {
+	boolean invalid_grid = false;
+	do {//repeats until a valid grid is generated where all ships are placed, none overlap or extend past the side
+		if (invalid_grid) grid = generateGrid();
+		invalid_grid = false;
+		//placing 5 long ship
+		//decides whether to place vertical or horizontal
+		if ((int)Math.round(Math.random()) == 0) {
+			//code for vertical placement
+			int startx = (int)Math.floor(Math.random()*8);
+			int starty = (int)Math.floor(Math.random()*3);
+			grid[starty][startx] = true;
+			grid[starty+1][startx] = true;
+			grid[starty+2][startx] = true;
+			grid[starty+3][startx] = true;
+			grid[starty+4][startx] = true;
 
-			} else {
-				//code for horizontal placement
-				int startx = (int)Math.floor(Math.random()*3);
-				int starty = (int)Math.floor(Math.random()*8);
-				grid[starty][startx] = true;
-				grid[starty][startx+1] = true;
-				grid[starty][startx+2] = true;
-				grid[starty][startx+3] = true;
-				grid[starty][startx+4] = true;
-			}
-			//placing 4 long ship
-			//decides whether to place vertical or horizontal
-			if ((int)Math.round(Math.random()) == 0) {
-				//code for vertical
-				int startx = (int)Math.floor(Math.random()*8);
-				int starty = (int)Math.floor(Math.random()*4);
-				if (grid[starty][startx]) invalid_grid = true;
-				if (grid[starty+1][startx]) invalid_grid = true;
-				if (grid[starty+2][startx]) invalid_grid = true;
-				if (grid[starty+3][startx]) invalid_grid = true;
-				grid[starty][startx] = true;
-				grid[starty+1][startx] = true;
-				grid[starty+2][startx] = true;
-				grid[starty+3][startx] = true;
+		} else {
+			//code for horizontal placement
+			int startx = (int)Math.floor(Math.random()*3);
+			int starty = (int)Math.floor(Math.random()*8);
+			grid[starty][startx] = true;
+			grid[starty][startx+1] = true;
+			grid[starty][startx+2] = true;
+			grid[starty][startx+3] = true;
+			grid[starty][startx+4] = true;
+		}
+		//placing 4 long ship
+		//decides whether to place vertical or horizontal
+		if ((int)Math.round(Math.random()) == 0) {
+			//code for vertical
+			int startx = (int)Math.floor(Math.random()*8);
+			int starty = (int)Math.floor(Math.random()*4);
+			if (grid[starty][startx]) invalid_grid = true;
+			if (grid[starty+1][startx]) invalid_grid = true;
+			if (grid[starty+2][startx]) invalid_grid = true;
+			if (grid[starty+3][startx]) invalid_grid = true;
+			grid[starty][startx] = true;
+			grid[starty+1][startx] = true;
+			grid[starty+2][startx] = true;
+			grid[starty+3][startx] = true;
 
-			} else {
-				//code for horizontal
-				int startx = (int)Math.floor(Math.random()*4);
-				int starty = (int)Math.floor(Math.random()*8);
-				if (grid[starty][startx]) invalid_grid = true;
-				if (grid[starty][startx+1]) invalid_grid = true;
-				if (grid[starty][startx+2]) invalid_grid = true;
-				if (grid[starty][startx+3]) invalid_grid = true;
-				grid[starty][startx] = true;
-				grid[starty][startx+1] = true;
-				grid[starty][startx+2] = true;
-				grid[starty][startx+3] = true;
-			}
-			...
+		} else {
+			//code for horizontal
+			int startx = (int)Math.floor(Math.random()*4);
+			int starty = (int)Math.floor(Math.random()*8);
+			if (grid[starty][startx]) invalid_grid = true;
+			if (grid[starty][startx+1]) invalid_grid = true;
+			if (grid[starty][startx+2]) invalid_grid = true;
+			if (grid[starty][startx+3]) invalid_grid = true;
+			grid[starty][startx] = true;
+			grid[starty][startx+1] = true;
+			grid[starty][startx+2] = true;
+			grid[starty][startx+3] = true;
+		}
+		...
 ```
 
 [continue reading PlaceShipsRandom() in BattleShipGUI.java](https://github.com/AggrievedBubble/java-battleship/blob/4c7634908deb38c388f5f10a8d4777b97b8d6ef1/src/battleship/BattleShipGUI.java#L153-L283)
 
 One downfall of this function is that it **only** checks for overlapping ships and not contacting ships. this can lead to some strange but interesting generation. it would be fairly easy to alter this to check for contact with other ships but this is still better than having preset locations for the enemy ships that can be memorised over time and helps to improve the replayability of the game.
+
+[This](https://github.com/AggrievedBubble/java-battleship/blob/e2cd4baedeaf40cc6d89bc9133deaa757b416bfb/src/battleship/BattleShipGUI.java#L285-L294) is an important function and is usefull for quickly logging the board state to console when debugging:
 
 ```java
 static void logGrid(boolean[][] grid) {
@@ -186,9 +182,31 @@ static void logGrid(boolean[][] grid) {
 }
 ```
 
-The above function is be a useful debugging function to quickly log the board state when programming.
+Another important function is the [CPUHit()](https://github.com/AggrievedBubble/java-battleship/blob/e2cd4baedeaf40cc6d89bc9133deaa757b416bfb/src/battleship/Team.java#L19-L37) function.
 
----
+The CPUHit() function is called on the _FRIENDLY_ team in order to randomly attack one of the players squares. It doesn't include any logic to attack where there is likely a ship, and this is one of it's downfalls, but it doesn't attack somewhere it has already attacked:
+
+```java
+@Override
+public void CPUHit() {
+	int x = (int)Math.floor(Math.random()*8);
+	int y = (int)Math.floor(Math.random()*8);
+	for (Component comp: this.getDisplayGrid().getComponents()) {
+		Segment seg = (Segment) comp;
+		if (seg.getPos().getX() == x && seg.getPos().getY() == y) {
+			if (seg.getState().equals(State.UNKNOWN)) {
+				seg.setState(State.MISS);
+			} else if (seg.getState().equals(State.ALIVE)) {
+				seg.setState(State.DEAD);
+			} else {
+				this.CPUHit();
+			}
+
+		}
+	}
+
+}
+```
 
 ## Testing
 
@@ -203,8 +221,6 @@ The above function is be a useful debugging function to quickly log the board st
 |   7 |  Invalid  | Click elsewhere in the window    | Test if shot will fire on background space         | Nothing happens                          | Nothing happens                          |   Pass    |
 |   8 |   Valid   | Resize window                    | Test window resize                                 | Window resizes, grids resize to fill     | Window resizes, grids resize to fill     |   Pass    |
 
----
-
 ## Code Optimisations
 
 The first code optimisation i made was changing the use of lots of if else statements to the use of switches, this helps to improve readibility and performance. another change that was made is the change to use enums to represent visual states of the segments.
@@ -214,8 +230,6 @@ Originally the application could randomly select from a number of positions for 
 Another change made was that I went from storing the location as an array of ints to being objects of a position class. This improves readablility, and maintainability since the code self-documents more than before
 
 Instead of `this.getPosition()[0];`, `this.getPosition()[1];` it now looks like: `this.getPos().getX();` and `this.getPos().getY();` which is an improvement in readability and ensures someone can understand this code without needing to know that `[0]` is the x position and `[1]` is the y position.
-
----
 
 ## Evaluation
 
@@ -227,8 +241,8 @@ I would argue that I have met the requirements for the project.
 
 Overall my solution worked well, there are some things I would have liked to added that would have completed the experience such as checks for contacting ships, sink detection and options to play against other people.
 
-Overall my solution worked well, maintaining the key elements of battleship whilst maintaining
+It would have also been nice to be able to use a newer framework than swing such as javafx. but unfortunately I don't have knowledge of that. I would have also prefered to use web technologies such as javascript, html and css, this would enable the game to be played in a web browser by navigating to a website or using electron to make it a desktop app.
 
-It would have also been nice if I had enough time to implement sink detection for enemy ships so that they turn red once destroyed.
+Using javascript would have also enabled easier multiplayer through websockets and the use of [socket.io](https://socket.io/)
 
 > After creating this document i noticed a bug in which the player can shoot their own ships... the computer then also takes a shot at the players ships. this is not intended and could be fixed easily by adding a simple if statement arround the switch [here](https://github.com/AggrievedBubble/java-battleship/blob/4c7634908deb38c388f5f10a8d4777b97b8d6ef1/src/battleship/ship/Segment.java#L94-L108)
